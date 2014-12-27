@@ -28,6 +28,13 @@ You need to specify destination directry named "application". This "application"
 git clone https://github.com/ryuzee/open-slideshare application
 ```
 
+## Install required gem and cookbooks
+
+```
+bundle install
+bundle exec berks vendor cookbooks
+```
+
 ## Start vagrant
 
 ```
@@ -35,3 +42,5 @@ vagrant up --provision
 ```
 
 It will take more than 5 minutes to install and configure several packages.
+
+After launching virtual machine, login to the machine and go forward the installation process. See more details https://github.com/ryuzee/open-slideshare
