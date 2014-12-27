@@ -1,0 +1,6 @@
+Berksfile.lock
+Gemfile.lock
+application
+cookbooks
+.vagrant
+nodes/*

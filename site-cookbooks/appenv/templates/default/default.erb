@@ -1,0 +1,36 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    root /var/www/application/current/app/webroot;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index   index.php;
+        fastcgi_intercept_errors on;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param CAKE_ENV <%= node['appenv']['CAKE_ENV'] %>;
+        fastcgi_param RDS_HOSTNAME <%= node['appenv']['RDS_HOSTNAME'] %>;
+        fastcgi_param RDS_USERNAME <%= node['appenv']['RDS_USERNAME'] %>;
+        fastcgi_param RDS_PASSWORD <%= node['appenv']['RDS_PASSWORD'] %>;
+        fastcgi_param RDS_DB_NAME <%= node['appenv']['RDS_DB_NAME'] %>;
+        <% if not node['appenv']['AWS_ACCESS_ID'].empty? %>
+        fastcgi_param AWS_ACCESS_ID <%= node['appenv']['AWS_ACCESS_ID'] %>;
+        <% end %>
+        <% if not node['appenv']['AWS_SECRET_KEY'].empty? %>
+        fastcgi_param AWS_SECRET_KEY <%= node['appenv']['AWS_SECRET_KEY'] %>;
+        <% end %>
+        fastcgi_param BUCKET_NAME <%= node['appenv']['BUCKET_NAME'] %>;
+        fastcgi_param IMAGE_BUCKET_NAME <%= node['appenv']['IMAGE_BUCKET_NAME'] %>;
+        fastcgi_param REGION <%= node['appenv']['REGION'] %>;
+        fastcgi_param SQS_URL <%= node['appenv']['SQS_URL'] %>;
+        fastcgi_param DEBUG <%= node['appenv']['DEBUG'] %>;
+    }
+}

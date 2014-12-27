@@ -1,0 +1,16 @@
+export CAKE_ENV=<%= node['appenv']['CAKE_ENV'] %>
+export RDS_HOSTNAME=<%= node['appenv']['RDS_HOSTNAME'] %>
+export RDS_USERNAME=<%= node['appenv']['RDS_USERNAME'] %>
+export RDS_PASSWORD=<%= node['appenv']['RDS_PASSWORD'] %>
+export RDS_DB_NAME=<%= node['appenv']['RDS_DB_NAME'] %>
+<% if not node['appenv']['AWS_ACCESS_ID'].empty? %>
+export AWS_ACCESS_ID=<%= node['appenv']['AWS_ACCESS_ID'] %>
+<% end %>
+<% if not node['appenv']['AWS_SECRET_KEY'].empty? %>
+export AWS_SECRET_KEY=<%= node['appenv']['AWS_SECRET_KEY'] %>
+<% end %>
+export BUCKET_NAME=<%= node['appenv']['BUCKET_NAME'] %>
+export IMAGE_BUCKET_NAME=<%= node['appenv']['IMAGE_BUCKET_NAME'] %>
+export REGION=<%= node['appenv']['REGION'] %>
+export SQS_URL=<%= node['appenv']['SQS_URL'] %>
+export DEBUG=<%= node['appenv']['DEBUG'] %>

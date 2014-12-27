@@ -1,0 +1,13 @@
+default['appenv']['CAKE_ENV']       = "development";
+default['appenv']['RDS_HOSTNAME']   = "localhost";
+default['appenv']['RDS_USERNAME']   = "webapp";
+default['appenv']['RDS_PASSWORD']   = "";
+default['appenv']['RDS_DB_NAME']    = "openslideshare";
+default['appenv']['AWS_ACCESS_ID']  = "";
+default['appenv']['AWS_SECRET_KEY'] = "";
+default['appenv']['BUCKET_NAME']    = "open-slideshare-files";
+default['appenv']['IMAGE_BUCKET_NAME']    = "open-slideshare-images";
+default['appenv']['REGION']         = "ap-northeast-1";
+default['appenv']['SQS_URL']        = "https://sqs.ap-northeast-1.amazonaws.com/111111111111/open-slideshare-convert";
+default['appenv']['DEBUG']          = "1";
+default['appenv']['batch_user']     = "vagrant";
