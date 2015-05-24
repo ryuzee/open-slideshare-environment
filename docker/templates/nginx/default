@@ -16,16 +16,16 @@ server {
         fastcgi_index   index.php;
         fastcgi_intercept_errors on;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param DB_HOSTNAME    ENV['DB_HOSTNAME'];
-        fastcgi_param DB_USERNAME    ENV['DB_USRTNAME'];
-        fastcgi_param DB_PASSWORD    ENV['DB_PASSWORD'];
-        fastcgi_param DB_DB_NAME     ENV['DB_DB_NAME'];
-        fastcgi_param AWS_ACCESS_ID  ENV['AWS_ACCESS_ID'];
-        fastcgi_param AWS_SECRET_KEY ENV['AWS_SECRET_KEY'];
-        fastcgi_param BUCKET_NAME    ENV['OSS_BUCKET_NAME'];
-        fastcgi_param IMAGE_BUCKET_NAME  ENV['OSS_IMAGE_BUCKET_NAME'];
-        fastcgi_param REGION         ENV['OSS_REGION'];
-        fastcgi_param SQS_URL        ENV['OSS_SQS_URL'];
-        fastcgi_param DEBUG:         ENV['DEBUG'];
+        fastcgi_param RDS_HOSTNAME    ##RDS_HOSTNAME##;
+        fastcgi_param RDS_USERNAME    ##RDS_USERNAME##;
+        fastcgi_param RDS_PASSWORD    ##RDS_PASSWORD##;
+        fastcgi_param RDS_DB_NAME     ##RDS_DB_NAME##;
+        fastcgi_param AWS_ACCESS_ID   ##AWS_ACCESS_ID##;
+        fastcgi_param AWS_SECRET_KEY  ##AWS_SECRET_KEY##;
+        fastcgi_param BUCKET_NAME     ##BUCKET_NAME##;
+        fastcgi_param IMAGE_BUCKET_NAME  ##IMAGE_BUCKET_NAME##;
+        fastcgi_param REGION          ##REGION##;
+        fastcgi_param SQS_URL         ##SQS_URL##;
+        fastcgi_param DEBUG:          ##DEBUG##;
     }
 }

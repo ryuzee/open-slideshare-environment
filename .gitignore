@@ -4,3 +4,4 @@ application
 cookbooks
 .vagrant
 nodes/*
+run.sh
