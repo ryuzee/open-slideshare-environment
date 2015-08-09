@@ -51,22 +51,28 @@ end
 
 # Nginxのドキュメントルートを作成する
 directory node['nginx']['docroot']['path'] do
-  owner node['nginx']['docroot']['owner'] 
-  group node['nginx']['docroot']['group'] 
+  owner node['nginx']['docroot']['owner']
+  group node['nginx']['docroot']['group']
   mode 0755
   action :create
   recursive true
-  only_if { not File.exists?(node['nginx']['docroot']['path']) and node['nginx']['docroot']['force_create']}  
+  only_if { not File.exists?(node['nginx']['docroot']['path']) and node['nginx']['docroot']['force_create']}
 end
 
 # ダミーのphpスクリプトを作成する
 template "#{node['nginx']['docroot']['path']}/index.php" do
   source "index.php.erb"
-  owner node['nginx']['docroot']['owner'] 
-  group node['nginx']['docroot']['group'] 
+  owner node['nginx']['docroot']['owner']
+  group node['nginx']['docroot']['group']
   mode 0644
   action :create
   only_if { not File.exists?("#{node['nginx']['docroot']['path']}/index.php") and node['nginx']['docroot']['force_create']}
+end
+
+# 外部からのコネクションを受け付ける
+execute "sed -i -e 's/bind-address\t\t= 127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/my.cnf" do
+  action :run
+  only_if { node['mysql']['accept_connection_from_outside'] == true }
 end
 
 # Nginxのサービスを有効化して起動する
@@ -105,7 +111,19 @@ end
 mysql_database_user node['mysql']['app_database_user'] do
   connection mysql_connection_info
   password node['mysql']['app_database_password']
-  database_name node['mysql']['app_database_name'] 
+  database_name node['mysql']['app_database_name']
   privileges [:all]
   action [:create, :grant]
 end
+
+mysql_database_user node['mysql']['app_database_user'] do
+  connection mysql_connection_info
+  password node['mysql']['app_database_password']
+  database_name node['mysql']['app_database_name']
+  privileges [:all]
+  action [:create, :grant]
+  host '%'
+  only_if { node['mysql']['accept_connection_from_outside'] == true }
+end
+
+# vim: filetype=ruby.chef

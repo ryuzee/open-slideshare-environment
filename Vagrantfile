@@ -29,12 +29,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.json = {
         nginx: {
           docroot: {
-            owner: "vagrant", 
-            group: "vagrant", 
+            owner: "vagrant",
+            group: "vagrant",
             path: "/var/www/application/current/app/webroot",
             force_create: true
           },
-          default: { 
+          default: {
             fastcgi_params: {  CAKE_ENV: "development" }
           },
           test: {
@@ -43,6 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           }
         },
         mysql: {
+          accept_connection_from_outside: true,
           app_database_name: "openslideshare",
           app_database_user: "webapp",
           app_database_password: "passw0rd"

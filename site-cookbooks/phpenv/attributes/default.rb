@@ -9,8 +9,10 @@ default['nginx']['docroot']['force_create'] = false
 # Nginxのdefaultサイト設定に引き渡すパラメータ
 default['nginx']['default']['fastcgi_params'] = []
 # Nginxでテスト用のVirtualHostを使うかどうか
-default['nginx']['test']['available'] = false 
+default['nginx']['test']['available'] = false
 # Nginxのtestサイト設定に引き渡すパラメータ
 default['nginx']['test']['fastcgi_params'] = []
 # MySQLのルートパスワード
 default['mysql']['root_password'] = 'password'
+# 外部からのDB接続を受け入れるか
+default['mysql']['accept_connection_from_outside'] = false
