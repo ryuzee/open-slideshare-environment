@@ -29,6 +29,7 @@ server {
         <% end %>
         fastcgi_param BUCKET_NAME <%= node['appenv']['BUCKET_NAME'] %>;
         fastcgi_param IMAGE_BUCKET_NAME <%= node['appenv']['IMAGE_BUCKET_NAME'] %>;
+        fastcgi_param USE_S3_STATIC_HOSTING <%= node['appenv']['USE_S3_STATIC_HOSTING'] %>;
         fastcgi_param REGION <%= node['appenv']['REGION'] %>;
         fastcgi_param SQS_URL <%= node['appenv']['SQS_URL'] %>;
         fastcgi_param DEBUG <%= node['appenv']['DEBUG'] %>;
