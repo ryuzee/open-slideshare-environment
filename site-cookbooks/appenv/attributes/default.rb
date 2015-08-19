@@ -8,6 +8,7 @@ default['appenv']['AWS_SECRET_KEY'] = "";
 default['appenv']['BUCKET_NAME']    = "open-slideshare-files";
 default['appenv']['IMAGE_BUCKET_NAME']     = "open-slideshare-images";
 default['appenv']['USE_S3_STATIC_HOSTING'] = 0;
+default['appenv']['CDN_BASE_URL']   = '';
 default['appenv']['REGION']         = "ap-northeast-1";
 default['appenv']['SQS_URL']        = "https://sqs.ap-northeast-1.amazonaws.com/111111111111/open-slideshare-convert";
 default['appenv']['DEBUG']          = "1";
