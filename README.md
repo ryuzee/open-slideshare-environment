@@ -10,7 +10,7 @@ You need to set environment variables as follows in your computer. (For example,
 * YOU NEED TO CREATE specific IAM user to call AWS API. DO NOT USE MASTER ACCOUNT's credential.
 
 ```
-# AWS 
+# AWS
 AWS_ACCESS_ID
 AWS_SECRET_KEY
 # OpenSlideshare
@@ -18,6 +18,8 @@ OSS_BUCKET_NAME
 OSS_IMAGE_BUCKET_NAME
 OSS_REGION
 OSS_SQS_URL
+OSS_USE_S3_STATIC_HOSTING
+OSS_CDN_BASE_URL
 ```
 
 ## Clone application
