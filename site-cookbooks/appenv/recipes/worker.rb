@@ -29,10 +29,18 @@ end
 service "supervisor" do
   supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
-end 
+end
 
 template "/etc/supervisor/conf.d/01_unoconv.conf" do
   source "01_unoconv.conf.erb"
+  owner "root"
+  group "root"
+  mode "00644"
+  notifies :restart, "service[supervisor]"
+end
+
+template "/etc/supervisor/conf.d/02_convert.conf" do
+  source "02_convert.conf.erb"
   owner "root"
   group "root"
   mode "00644"
