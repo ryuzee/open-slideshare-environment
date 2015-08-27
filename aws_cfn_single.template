@@ -1,0 +1,497 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Creating OpenSlideshare Environment",
+  "Parameters": {
+    "FirstAvailabilityZone": {
+      "Description": "First Availability Zone",
+      "Type": "String",
+      "Default": "ap-northeast-1a",
+      "AllowedValues": [
+        "ap-northeast-1a",
+        "ap-northeast-1b",
+        "ap-northeast-1c"
+      ],
+      "ConstraintDescription": "must be a valid Availability Zone Name."
+    },
+    "SecondAvailabilityZone": {
+      "Description": "Second Availability Zone",
+      "Type": "String",
+      "Default": "ap-northeast-1c",
+      "AllowedValues": [
+        "ap-northeast-1a",
+        "ap-northeast-1b",
+        "ap-northeast-1c"
+      ],
+      "ConstraintDescription": "must be a valid Availability Zone Name."
+    },
+    "KeyName" : {
+      "Description" : "Name of an existing EC2 Keypair to enable SSH access into the server",
+      "Type" : "String"
+    }
+  },
+  "Resources": {
+    "vpc1": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "172.24.0.0/16",
+        "InstanceTenancy": "default",
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-VPC"
+          }
+        ]
+      }
+    },
+    "subnetpublic1": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.24.0.0/24",
+        "AvailabilityZone": { "Ref": "FirstAvailabilityZone" },
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-PublicSubnet1"
+          }
+        ]
+      }
+    },
+    "subnetpublic2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.24.2.0/24",
+        "AvailabilityZone": { "Ref": "SecondAvailabilityZone" },
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-PublicSubnet2"
+          }
+        ]
+      }
+    },
+    "subnetprivate1": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.24.1.0/24",
+        "AvailabilityZone": { "Ref": "FirstAvailabilityZone" },
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-PrivateSubnet1"
+          }
+        ]
+      }
+    },
+    "subnetprivate2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.24.3.0/24",
+        "AvailabilityZone": { "Ref": "SecondAvailabilityZone" },
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-PrivateSubnet2"
+          }
+        ]
+      }
+    },
+    "igw1": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {}
+    },
+    "dhcpoption1": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "networkacl1": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc1"
+        }
+      }
+    },
+    "routetable1": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc1"
+        }
+      }
+    },
+    "routetable2": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc1"
+        }
+      }
+    },
+    "dbsubnetgroup1": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+        "DBSubnetGroupDescription": "DB Subnet Group",
+        "SubnetIds": [
+          {
+            "Ref": "subnetprivate1"
+          },
+          {
+            "Ref": "subnetprivate2"
+          }
+        ]
+      }
+    },
+    "securitygroup1": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "SecurityG for Web Server",
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "443",
+            "ToPort": "443",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "SecurityGroupEgress": [
+          {
+            "IpProtocol": "-1",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-WebSG"
+          }
+        ]
+      }
+    },
+    "securitygroup2": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "SecurityGroup for ELB",
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "SecurityGroupEgress": [
+          {
+            "IpProtocol": "-1",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-ELBSG"
+          }
+        ]
+      }
+    },
+    "aclentry1": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": true,
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "networkacl1"
+        }
+      }
+    },
+    "aclentry2": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "networkacl1"
+        }
+      }
+    },
+    "subnetaclpublic1": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkacl1"
+        },
+        "SubnetId": {
+          "Ref": "subnetpublic1"
+        }
+      }
+    },
+    "subnetaclpublic2": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkacl1"
+        },
+        "SubnetId": {
+          "Ref": "subnetpublic2"
+        }
+      }
+    },
+    "subnetaclprivate1": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkacl1"
+        },
+        "SubnetId": {
+          "Ref": "subnetprivate1"
+        }
+      }
+    },
+    "subnetaclprivate2": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkacl1"
+        },
+        "SubnetId": {
+          "Ref": "subnetprivate2"
+        }
+      }
+    },
+    "vpcgwattachment1": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "InternetGatewayId": {
+          "Ref": "igw1"
+        }
+      }
+    },
+    "subnetroutepublic2": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routetable1"
+        },
+        "SubnetId": {
+          "Ref": "subnetpublic2"
+        }
+      }
+    },
+    "subnetroutepublic1": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routetable1"
+        },
+        "SubnetId": {
+          "Ref": "subnetpublic1"
+        }
+      }
+    },
+    "subnetrouteprivate2": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routetable2"
+        },
+        "SubnetId": {
+          "Ref": "subnetprivate2"
+        }
+      }
+    },
+    "subnetrouteprivate1": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routetable2"
+        },
+        "SubnetId": {
+          "Ref": "subnetprivate1"
+        }
+      }
+    },
+    "route1": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "routetable1"
+        },
+        "GatewayId": {
+          "Ref": "igw1"
+        }
+      },
+      "DependsOn": "vpcgwattachment1"
+    },
+    "dchpassoc3": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc1"
+        },
+        "DhcpOptionsId": {
+          "Ref": "dhcpoption1"
+        }
+      }
+    },
+    "APServer" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "ImageId" : "ami-936d9d93",
+        "InstanceType" : "t2.large",
+        "IamInstanceProfile": {
+          "Ref": "OpenSlideshareInstanceProfile"
+        },
+        "KeyName" : {"Ref" : "KeyName" },
+        "BlockDeviceMappings" : [
+          {
+            "DeviceName" : "/dev/sda1",
+            "Ebs" : {
+                "VolumeSize" : "8"
+            }
+          }
+        ],
+        "Tags" : [
+          {
+            "Key" : "Name",
+            "Value" : "OpenSlideshare-APServer"
+          }
+        ],
+        "NetworkInterfaces" : [{
+          "GroupSet"                 : [{ "Ref" : "securitygroup1" }],
+          "AssociatePublicIpAddress" : "true",
+          "DeviceIndex"              : "0",
+          "DeleteOnTermination"      : "true",
+          "SubnetId"                 : { "Ref" : "subnetpublic1" }
+        }],
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+          "#!/bin/bash -v\n",
+          "apt-get install -y wget unzip\n",
+          "export OSS_REGION=ap-northeast-1\n",
+          "export OSS_USE_S3_STATIC_HOSTING=0\n",
+          "export OSS_CDN_BASE_URL=\"\"\n",
+          "export OSS_BUCKET_NAME=", { "Ref" : "OpenSlideshareFileBucket" }, "\n",
+          "export OSS_IMAGE_BUCKET_NAME=", { "Ref" : "OpenSlideshareImageBucket" }, "\n",
+          "export OSS_SQS_URL=", { "Ref" : "OpenSlideshareQueue" }, "\n",
+          "wget https://github.com/ryuzee/open-slideshare-environment/archive/master.zip -O /tmp/environment.zip\n",
+          "cd /tmp/ && unzip environment.zip\n",
+          "cd /tmp/open-slideshare-environment-master && sh ./install.sh\n"
+        ]]}}
+      }
+    },
+    "OpenSlideshareRootRole": {
+       "Type": "AWS::IAM::Role",
+       "Properties": {
+          "AssumeRolePolicyDocument": {
+             "Version" : "2012-10-17",
+             "Statement": [ {
+                "Effect": "Allow",
+                "Principal": {
+                   "Service": [ "ec2.amazonaws.com" ]
+                },
+                "Action": [ "sts:AssumeRole" ]
+             } ]
+          },
+          "Path": "/"
+       }
+    },
+    "OpenSlideshareRolePolicies": {
+       "Type": "AWS::IAM::Policy",
+       "Properties": {
+          "PolicyName": "root",
+          "PolicyDocument": {
+             "Version" : "2012-10-17",
+             "Statement": [ {
+                "Effect": "Allow",
+                "Action": ["s3:*", "sqs:*"],
+                "Resource": "*"
+             } ]
+          },
+          "Roles": [ { "Ref": "OpenSlideshareRootRole" } ]
+       }
+    },
+    "OpenSlideshareInstanceProfile": {
+       "Type": "AWS::IAM::InstanceProfile",
+       "Properties": {
+          "Path": "/",
+          "Roles": [ { "Ref": "OpenSlideshareRootRole" } ]
+       }
+    },
+    "OpenSlideshareFileBucket" : {
+      "Type" : "AWS::S3::Bucket",
+      "DeletionPolicy" : "Retain",
+      "Properties" : {
+        "CorsConfiguration": {
+          "CorsRules": [
+          {
+            "AllowedHeaders": ["*"],
+            "AllowedMethods": ["GET", "PUT", "POST", "HEAD"],
+            "AllowedOrigins": ["*"],
+            "ExposedHeaders": ["Access-Control-Allow-Origin"],
+            "Id": "OpenSlideshareCORSRuleId1",
+            "MaxAge": "3000"
+          }
+          ]
+        }
+      }
+    },
+    "OpenSlideshareImageBucket" : {
+       "Type" : "AWS::S3::Bucket",
+       "DeletionPolicy" : "Retain"
+    },
+    "OpenSlideshareQueue" : {
+      "Type" : "AWS::SQS::Queue",
+      "Properties" : {
+        "VisibilityTimeout" : "300"
+      }
+    }
+  },
+  "Outputs" : {
+    "ServerDNS" : {
+      "Description" : "DNS name of launched server",
+      "Value" : { "Fn::GetAtt" : [ "APServer", "PublicIp" ] }
+    }
+  }
+}
+
