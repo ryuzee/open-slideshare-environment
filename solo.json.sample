@@ -1,0 +1,47 @@
+{
+  "run_list": [
+    "recipe[apt]",
+    "recipe[phpenv::default]",
+    "recipe[phpenv::composer]",
+    "recipe[phpenv::develop]",
+    "recipe[appenv::default]",
+    "recipe[appenv::worker]"
+  ],
+  "nginx": {
+    "docroot": {
+      "owner": "ubuntu",
+      "group": "ubuntu",
+      "path": "/var/www/application/current/app/webroot",
+      "force_create": true
+    },
+    "default": {
+      "fastcgi_params": {  "CAKE_ENV": "production" }
+    },
+    "test": {
+      "available": true,
+      "fastcgi_params": {  "CAKE_ENV": "test" }
+    }
+  },
+  "mysql": {
+    "accept_connection_from_outside": false,
+    "app_database_name": "openslideshare",
+    "app_database_user": "webapp",
+    "app_database_password": "passw0rd"
+  },
+  "appenv": {
+    "batch_user": "ubuntu",
+    "RDS_HOSTNAME": "localhost",
+    "RDS_USERNAME": "webapp",
+    "RDS_PASSWORD": "passw0rd",
+    "RDS_DB_NAME": "openslideshare",
+    "AWS_ACCESS_ID": "##AWS_ACCESS_ID##",
+    "AWS_SECRET_KEY": "##AWS_SECRET_KEY##",
+    "BUCKET_NAME": "##OSS_BUCKET_NAME##",
+    "IMAGE_BUCKET_NAME": "##OSS_IMAGE_BUCKET_NAME##",
+    "USE_S3_STATIC_HOSTING": "##OSS_USE_S3_STATIC_HOSTING##",
+    "CDN_BASE_URL": "##OSS_CDN_BASE_URL##",
+    "REGION": "##OSS_REGION##",
+    "SQS_URL": "##OSS_SQS_URL##",
+    "DEBUG": "0"
+  }
+}
