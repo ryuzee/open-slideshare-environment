@@ -36,12 +36,12 @@
     "RDS_DB_NAME": "openslideshare",
     "AWS_ACCESS_ID": "##AWS_ACCESS_ID##",
     "AWS_SECRET_KEY": "##AWS_SECRET_KEY##",
-    "BUCKET_NAME": "##OSS_BUCKET_NAME##",
-    "IMAGE_BUCKET_NAME": "##OSS_IMAGE_BUCKET_NAME##",
-    "USE_S3_STATIC_HOSTING": "##OSS_USE_S3_STATIC_HOSTING##",
-    "CDN_BASE_URL": "##OSS_CDN_BASE_URL##",
-    "REGION": "##OSS_REGION##",
-    "SQS_URL": "##OSS_SQS_URL##",
+    "BUCKET_NAME": "##BUCKET_NAME##",
+    "IMAGE_BUCKET_NAME": "##IMAGE_BUCKET_NAME##",
+    "USE_S3_STATIC_HOSTING": "##USE_S3_STATIC_HOSTING##",
+    "CDN_BASE_URL": "##CDN_BASE_URL##",
+    "REGION": "##REGION##",
+    "SQS_URL": "##SQS_URL##",
     "DEBUG": "0"
   }
 }
