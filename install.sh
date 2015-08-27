@@ -66,3 +66,4 @@ cd /var/www/application/current && php composer.phar install
 chmod 755 /var/www/application/current/app/Console/cake
 cd /var/www/application/current && app/Console/cake Migrations.migration run all
 cd /var/www/application/current && app/Console/cake Migrations.migration run all -p Tags
+reboot
