@@ -61,7 +61,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           CDN_BASE_URL: ENV['OSS_CDN_BASE_URL'],
           REGION: ENV['OSS_REGION'],
           SQS_URL: ENV['OSS_SQS_URL'],
-          DEBUG: "2"
+          DEBUG: "2",
+          batch_user: "vagrant"
         }
       }
       chef.run_list = %w[
