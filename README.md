@@ -2,18 +2,22 @@
 
 Development environment for open-slideshare.
 
+## For AWS User!!
+
+If you want to run this app on AWS, You can use a simple CloudFormation Template [here](https://raw.githubusercontent.com/ryuzee/open-slideshare-environment/master/aws_cfn_single.template). This template will create a VPC, 4 subnets for both provate and public, required S3 buckets, SQS queue, IAM Role and so on. When you run this template, only you need to do is to wait around 15 minutes with coffee.
+
+This template is only for Tokyo region (ap-northeast-1). If you want to run the app in other region, you need to customize both this CFn template and install.sh.
+
 ## Set up environment variables
 
 You need to set environment variables as follows in your computer. (For example, set these variables in your ~/.zshrc, ~/bashrc or other scripts)
 
-* DO NOT SET AWS_ACCESS_ID and AWS_SECRET_KEY if you run the application on Amazon EC2.
+* DO NOT SET OSS_AWS_ACCESS_ID and OSS_AWS_SECRET_KEY if you run the application on Amazon EC2.
 * YOU NEED TO CREATE specific IAM user to call AWS API. DO NOT USE MASTER ACCOUNT's credential.
 
 ```
-# AWS
-AWS_ACCESS_ID
-AWS_SECRET_KEY
-# OpenSlideshare
+OSS_AWS_ACCESS_ID
+OSS_AWS_SECRET_KEY
 OSS_BUCKET_NAME
 OSS_IMAGE_BUCKET_NAME
 OSS_REGION
