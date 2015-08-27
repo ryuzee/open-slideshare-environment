@@ -1,18 +1,18 @@
-export CAKE_ENV=<%= node['appenv']['CAKE_ENV'] %>
-export RDS_HOSTNAME=<%= node['appenv']['RDS_HOSTNAME'] %>
-export RDS_USERNAME=<%= node['appenv']['RDS_USERNAME'] %>
-export RDS_PASSWORD=<%= node['appenv']['RDS_PASSWORD'] %>
-export RDS_DB_NAME=<%= node['appenv']['RDS_DB_NAME'] %>
-<% if not node['appenv']['AWS_ACCESS_ID'].empty? %>
-export AWS_ACCESS_ID=<%= node['appenv']['AWS_ACCESS_ID'] %>
+export OSS_CAKE_ENV=<%= node['appenv']['OSS_CAKE_ENV'] %>
+export OSS_RDS_HOSTNAME=<%= node['appenv']['OSS_RDS_HOSTNAME'] %>
+export OSS_RDS_USERNAME=<%= node['appenv']['OSS_RDS_USERNAME'] %>
+export OSS_RDS_PASSWORD=<%= node['appenv']['OSS_RDS_PASSWORD'] %>
+export OSS_RDS_DB_NAME=<%= node['appenv']['OSS_RDS_DB_NAME'] %>
+<% if not node['appenv']['OSS_AWS_ACCESS_ID'].empty? %>
+export OSS_AWS_ACCESS_ID=<%= node['appenv']['OSS_AWS_ACCESS_ID'] %>
 <% end %>
-<% if not node['appenv']['AWS_SECRET_KEY'].empty? %>
-export AWS_SECRET_KEY=<%= node['appenv']['AWS_SECRET_KEY'] %>
+<% if not node['appenv']['OSS_AWS_SECRET_KEY'].empty? %>
+export OSS_AWS_SECRET_KEY=<%= node['appenv']['OSS_AWS_SECRET_KEY'] %>
 <% end %>
-export BUCKET_NAME=<%= node['appenv']['BUCKET_NAME'] %>
-export IMAGE_BUCKET_NAME=<%= node['appenv']['IMAGE_BUCKET_NAME'] %>
-export USE_S3_STATIC_HOSTING=<%= node['appenv']['USE_S3_STATIC_HOSTING'] %>
-export CDN_BASE_URL=<%= node['appenv']['CDN_BASE_URL'] %>
-export REGION=<%= node['appenv']['REGION'] %>
-export SQS_URL=<%= node['appenv']['SQS_URL'] %>
-export DEBUG=<%= node['appenv']['DEBUG'] %>
+export OSS_BUCKET_NAME=<%= node['appenv']['OSS_BUCKET_NAME'] %>
+export OSS_IMAGE_BUCKET_NAME=<%= node['appenv']['OSS_IMAGE_BUCKET_NAME'] %>
+export OSS_USE_S3_STATIC_HOSTING=<%= node['appenv']['OSS_USE_S3_STATIC_HOSTING'] %>
+export OSS_CDN_BASE_URL=<%= node['appenv']['OSS_CDN_BASE_URL'] %>
+export OSS_REGION=<%= node['appenv']['OSS_REGION'] %>
+export OSS_SQS_URL=<%= node['appenv']['OSS_SQS_URL'] %>
+export OSS_DEBUG=<%= node['appenv']['OSS_DEBUG'] %>

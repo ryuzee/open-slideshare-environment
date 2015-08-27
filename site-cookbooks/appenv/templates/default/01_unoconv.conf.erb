@@ -1,6 +1,6 @@
 [program:xvfb]
 command=Xvfb :1
-user=<%= node['appenv']['batch_user'] %>
+user=<%= node['appenv']['OSS_BATCH_USER'] %>
 autostart=true
 autorestart=true
 stdout_logfile=/var/log/xvfb.log
@@ -8,7 +8,7 @@ redirect_stderr=true
 
 [program:unoconv]
 command=unoconv --listener
-user=<%= node['appenv']['batch_user'] %>
+user=<%= node['appenv']['OSS_BATCH_USER'] %>
 autostart=true
 autorestart=true
 stdout_logfile=/var/log/unoconv.log

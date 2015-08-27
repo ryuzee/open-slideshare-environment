@@ -35,11 +35,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             force_create: true
           },
           default: {
-            fastcgi_params: {  CAKE_ENV: "development" }
+            fastcgi_params: {  OSS_CAKE_ENV: "development" }
           },
           test: {
             available: true,
-            fastcgi_params: {  CAKE_ENV: "test" }
+            fastcgi_params: {  OSS_CAKE_ENV: "test" }
           }
         },
         mysql: {
@@ -49,20 +49,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           app_database_password: "passw0rd"
         },
         appenv: {
-          RDS_HOSTNAME: "localhost",
-          RDS_USERNAME: "webapp",
-          RDS_PASSWORD: "passw0rd",
-          RDS_DB_NAME: "openslideshare",
-          AWS_ACCESS_ID: ENV['AWS_ACCESS_ID'],
-          AWS_SECRET_KEY: ENV['AWS_SECRET_KEY'],
-          BUCKET_NAME: ENV['OSS_BUCKET_NAME'],
-          IMAGE_BUCKET_NAME: ENV['OSS_IMAGE_BUCKET_NAME'],
-          USE_S3_STATIC_HOSTING: ENV['OSS_USE_S3_STATIC_HOSTING'],
-          CDN_BASE_URL: ENV['OSS_CDN_BASE_URL'],
-          REGION: ENV['OSS_REGION'],
-          SQS_URL: ENV['OSS_SQS_URL'],
-          DEBUG: "2",
-          batch_user: "vagrant"
+          OSS_RDS_HOSTNAME: "localhost",
+          OSS_RDS_USERNAME: "webapp",
+          OSS_RDS_PASSWORD: "passw0rd",
+          OSS_RDS_DB_NAME: "openslideshare",
+          OSS_AWS_ACCESS_ID: ENV['OSS_AWS_ACCESS_ID'],
+          OSS_AWS_SECRET_KEY: ENV['OSS_AWS_SECRET_KEY'],
+          OSS_BUCKET_NAME: ENV['OSS_BUCKET_NAME'],
+          OSS_IMAGE_BUCKET_NAME: ENV['OSS_IMAGE_BUCKET_NAME'],
+          OSS_USE_S3_STATIC_HOSTING: ENV['OSS_USE_S3_STATIC_HOSTING'],
+          OSS_CDN_BASE_URL: ENV['OSS_CDN_BASE_URL'],
+          OSS_REGION: ENV['OSS_REGION'],
+          OSS_SQS_URL: ENV['OSS_SQS_URL'],
+          OSS_DEBUG: "2",
+          OSS_BATCH_USER: "vagrant"
         }
       }
       chef.run_list = %w[

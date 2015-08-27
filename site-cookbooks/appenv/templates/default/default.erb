@@ -16,25 +16,25 @@ server {
         fastcgi_index   index.php;
         fastcgi_intercept_errors on;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param CAKE_ENV <%= node['appenv']['CAKE_ENV'] %>;
-        fastcgi_param RDS_HOSTNAME <%= node['appenv']['RDS_HOSTNAME'] %>;
-        fastcgi_param RDS_USERNAME <%= node['appenv']['RDS_USERNAME'] %>;
-        fastcgi_param RDS_PASSWORD <%= node['appenv']['RDS_PASSWORD'] %>;
-        fastcgi_param RDS_DB_NAME <%= node['appenv']['RDS_DB_NAME'] %>;
-        <% if not node['appenv']['AWS_ACCESS_ID'].empty? %>
-        fastcgi_param AWS_ACCESS_ID <%= node['appenv']['AWS_ACCESS_ID'] %>;
+        fastcgi_param OSS_CAKE_ENV <%= node['appenv']['OSS_CAKE_ENV'] %>;
+        fastcgi_param OSS_RDS_HOSTNAME <%= node['appenv']['OSS_RDS_HOSTNAME'] %>;
+        fastcgi_param OSS_RDS_USERNAME <%= node['appenv']['OSS_RDS_USERNAME'] %>;
+        fastcgi_param OSS_RDS_PASSWORD <%= node['appenv']['OSS_RDS_PASSWORD'] %>;
+        fastcgi_param OSS_RDS_DB_NAME <%= node['appenv']['OSS_RDS_DB_NAME'] %>;
+        <% if not node['appenv']['OSS_AWS_ACCESS_ID'].empty? %>
+        fastcgi_param OSS_AWS_ACCESS_ID <%= node['appenv']['OSS_AWS_ACCESS_ID'] %>;
         <% end %>
-        <% if not node['appenv']['AWS_SECRET_KEY'].empty? %>
-        fastcgi_param AWS_SECRET_KEY <%= node['appenv']['AWS_SECRET_KEY'] %>;
+        <% if not node['appenv']['OSS_AWS_SECRET_KEY'].empty? %>
+        fastcgi_param OSS_AWS_SECRET_KEY <%= node['appenv']['OSS_AWS_SECRET_KEY'] %>;
         <% end %>
-        fastcgi_param BUCKET_NAME <%= node['appenv']['BUCKET_NAME'] %>;
-        fastcgi_param IMAGE_BUCKET_NAME <%= node['appenv']['IMAGE_BUCKET_NAME'] %>;
-        fastcgi_param USE_S3_STATIC_HOSTING <%= node['appenv']['USE_S3_STATIC_HOSTING'] %>;
-        <% if not node['appenv']['CDN_BASE_URL'].empty? %>
-        fastcgi_param CDN_BASE_URL <%= node['appenv']['CDN_BASE_URL'] %>;
+        fastcgi_param OSS_BUCKET_NAME <%= node['appenv']['OSS_BUCKET_NAME'] %>;
+        fastcgi_param OSS_IMAGE_BUCKET_NAME <%= node['appenv']['OSS_IMAGE_BUCKET_NAME'] %>;
+        fastcgi_param OSS_USE_S3_STATIC_HOSTING <%= node['appenv']['OSS_USE_S3_STATIC_HOSTING'] %>;
+        <% if not node['appenv']['OSS_CDN_BASE_URL'].empty? %>
+        fastcgi_param OSS_CDN_BASE_URL <%= node['appenv']['OSS_CDN_BASE_URL'] %>;
         <% end %>
-        fastcgi_param REGION <%= node['appenv']['REGION'] %>;
-        fastcgi_param SQS_URL <%= node['appenv']['SQS_URL'] %>;
-        fastcgi_param DEBUG <%= node['appenv']['DEBUG'] %>;
+        fastcgi_param OSS_REGION <%= node['appenv']['OSS_REGION'] %>;
+        fastcgi_param OSS_SQS_URL <%= node['appenv']['OSS_SQS_URL'] %>;
+        fastcgi_param OSS_DEBUG <%= node['appenv']['OSS_DEBUG'] %>;
     }
 }

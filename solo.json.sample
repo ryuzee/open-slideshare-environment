@@ -15,11 +15,11 @@
       "force_create": true
     },
     "default": {
-      "fastcgi_params": {  "CAKE_ENV": "production" }
+      "fastcgi_params": {  "OSS_CAKE_ENV": "production" }
     },
     "test": {
       "available": true,
-      "fastcgi_params": {  "CAKE_ENV": "test" }
+      "fastcgi_params": {  "OSS_CAKE_ENV": "test" }
     }
   },
   "mysql": {
@@ -29,19 +29,19 @@
     "app_database_password": "passw0rd"
   },
   "appenv": {
-    "batch_user": "ubuntu",
-    "RDS_HOSTNAME": "localhost",
-    "RDS_USERNAME": "webapp",
-    "RDS_PASSWORD": "passw0rd",
-    "RDS_DB_NAME": "openslideshare",
-    "AWS_ACCESS_ID": "##AWS_ACCESS_ID##",
-    "AWS_SECRET_KEY": "##AWS_SECRET_KEY##",
-    "BUCKET_NAME": "##BUCKET_NAME##",
-    "IMAGE_BUCKET_NAME": "##IMAGE_BUCKET_NAME##",
-    "USE_S3_STATIC_HOSTING": "##USE_S3_STATIC_HOSTING##",
-    "CDN_BASE_URL": "##CDN_BASE_URL##",
-    "REGION": "##REGION##",
-    "SQS_URL": "##SQS_URL##",
-    "DEBUG": "0"
+    "OSS_BATCH_USER": "ubuntu",
+    "OSS_RDS_HOSTNAME": "localhost",
+    "OSS_RDS_USERNAME": "webapp",
+    "OSS_RDS_PASSWORD": "passw0rd",
+    "OSS_RDS_DB_NAME": "openslideshare",
+    "OSS_AWS_ACCESS_ID": "##OSS_AWS_ACCESS_ID##",
+    "OSS_AWS_SECRET_KEY": "##OSS_AWS_SECRET_KEY##",
+    "OSS_BUCKET_NAME": "##OSS_BUCKET_NAME##",
+    "OSS_IMAGE_BUCKET_NAME": "##OSS_IMAGE_BUCKET_NAME##",
+    "OSS_USE_S3_STATIC_HOSTING": "##OSS_USE_S3_STATIC_HOSTING##",
+    "OSS_CDN_BASE_URL": "##OSS_CDN_BASE_URL##",
+    "OSS_REGION": "##OSS_REGION##",
+    "OSS_SQS_URL": "##OSS_SQS_URL##",
+    "OSS_DEBUG": "0"
   }
 }
