@@ -1,6 +1,6 @@
-namespace :prepare do
+namespace :custom do
   desc <<-DESC
-    Delete phisical directory
+    Custom procedure...
   DESC
   task :unlink do
     on roles (:web) do
@@ -31,9 +31,8 @@ EOS
     end
   end
 
-  before 'deploy', 'prepare:unlink'
-  before 'deploy:symlink:release', 'prepare:change_permission'
-  before 'deploy:symlink:release', 'prepare:install_composer'
-  after 'prepare:install_composer', 'prepare:migrate'
+  before 'deploy', 'custom:unlink'
+  before 'deploy:symlink:release', 'custom:change_permission'
+  before 'deploy:symlink:release', 'custom:install_composer'
+  after 'custom:install_composer', 'custom:migrate'
 end
-
