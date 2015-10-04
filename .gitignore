@@ -5,3 +5,4 @@ cookbooks
 .vagrant
 nodes/*
 run.sh
+deploy_ssh.sh
