@@ -7,6 +7,10 @@
 # OSS_REGION
 # OSS_SQS_URL
 
+if [ -f ./export.sh ]; then
+  source ./export.sh
+fi
+
 apt-get update
 apt-get install -y build-essential autoconf curl wget unzip git
 
