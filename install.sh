@@ -63,8 +63,11 @@ cd /tmp/open-slideshare-environment-master && /opt/chefdk/embedded/bin/bundle in
 ######## install application ########
 wget https://github.com/ryuzee/open-slideshare/archive/master.zip -O /tmp/app.zip
 cd /tmp && unzip app.zip
-mkdir -p /var/www/application
-cp -Rp /tmp/open-slideshare-master/ -T /var/www/application/current
+REL=`date +%Y%m%d%H%M%S`
+mkdir -p /var/www/application/releases/$REL
+cp -Rp /tmp/open-slideshare-master/ -T /var/www/application/releases/$REL
+if [ ! -n "`readlink /var/www/application/current`" ]; then rm -rf /var/www/application/current; fi
+ln -s /var/www/application/releases/$REL /var/www/application/current
 chmod -R 777 /var/www/application/current/app/tmp/
 cd /var/www/application/current && php composer.phar install
 chmod 755 /var/www/application/current/app/Console/cake
