@@ -11,11 +11,11 @@ if [ -f ./export.sh ]; then
   source ./export.sh
 fi
 
-if [ ! -v DEPLOY_USER ]; then
+if [ -z "${DEPLOY_USER+x}" ]; then
   DEPLOY_USER=ubuntu
 fi
 
-if [ ! -v DEPLOY_GROUP ]; then
+if [ -z "${DEPLOY_GROUP+x}" ]; then
   DEPLOY_GROUP=ubuntu
 fi
 
