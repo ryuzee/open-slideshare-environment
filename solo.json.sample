@@ -9,8 +9,8 @@
   ],
   "nginx": {
     "docroot": {
-      "owner": "ubuntu",
-      "group": "ubuntu",
+      "owner": "##DEPLOY_USER##",
+      "group": "##DEPLOY_GROUP##",
       "path": "/var/www/application/current/app/webroot",
       "force_create": true
     },
@@ -29,7 +29,7 @@
     "app_database_password": "passw0rd"
   },
   "appenv": {
-    "OSS_BATCH_USER": "ubuntu",
+    "OSS_BATCH_USER": "##DEPLOY_USER##",
     "OSS_RDS_HOSTNAME": "localhost",
     "OSS_RDS_USERNAME": "webapp",
     "OSS_RDS_PASSWORD": "passw0rd",

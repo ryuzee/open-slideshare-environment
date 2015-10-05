@@ -52,6 +52,8 @@ echo 'cookbook_path "/tmp/open-slideshare-environment-master/cookbooks/"' >> /et
 
 ######## solo.json ########
 cp /tmp/open-slideshare-environment-master/solo.json.sample /etc/chef/solo.json
+sed -i -e "s|##DEPLOY_USER##|$DEPLOY_USER|g" /etc/chef/solo.json
+sed -i -e "s|##DEPLOY_GROUP##|$DEPLOY_GROUP|g" /etc/chef/solo.json
 sed -i -e "s|##OSS_RDS_HOSTNAME##|$OSS_RDS_HOSTNAME|g" /etc/chef/solo.json
 sed -i -e "s|##OSS_RDS_USERNAME##|$OSS_RDS_USERNAME|g" /etc/chef/solo.json
 sed -i -e "s|##OSS_RDS_PASSWORD##|$OSS_RDS_PASSWORD|g" /etc/chef/solo.json
