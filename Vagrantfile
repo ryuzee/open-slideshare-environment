@@ -12,6 +12,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     develop.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box"
     develop.vm.network :private_network, ip: "192.168.33.33"
     develop.vm.network "forwarded_port", guest: 80, host: 8888
+    develop.vm.provider "virtualbox" do |vb|
+     vb.gui = true
+     # vb.memory = "1024"
+    end
 
     # 以下を追加
     # Vagrantfileがあるディレクトリと同じディレクトリのapplicationディレクトリをVagrantと共有します
@@ -72,6 +76,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         recipe[phpenv::develop]
         recipe[appenv::default]
         recipe[appenv::worker]
+        recipe[devtool::default]
       ]
     end
   end
