@@ -5,42 +5,45 @@
 # Copyright 2015, Ryutaro Yoshiba
 #
 
+user = 'vagrant'
+bin_dir = "/home/#{user}/.nodebrew/current/bin"
+
 execute "wget git.io/nodebrew -O /tmp/nodebrew && perl /tmp/nodebrew setup" do
   user  'vagrant'
-  environment 'HOME' => "/home/vagrant"
-  action :run
-end
-
-execute "nodebrew install-binary v4.1.1 && nodebrew use v4.1.1" do
-  user  'vagrant'
-  environment(
-    'USER' => 'vagrant',
-    'HOME' => "/home/vagrant",
-    'PATH' => "/home/vagrant/.nodebrew/current/bin:/usr/bin"
-  )
-  action :run
-  not_if "node -v"
-end
-
-execute "npm install -g grunt-cli" do
-  user  'vagrant'
-  environment(
-    'USER' => 'vagrant',
-    'HOME' => "/home/vagrant",
-    'PATH' => "/home/vagrant/.nodebrew/current/bin:/usr/bin"
-  )
+  environment 'HOME' => "/home/#{user}"
   action :run
 end
 
 ruby_block "add path" do
   block do
-    file = Chef::Util::FileEdit.new("/home/vagrant/.bashrc")
+    file = Chef::Util::FileEdit.new("/home/#{user}/.bashrc")
     file.insert_line_if_no_match(
       "PATH=$HOME/.nodebrew/current/bin:$PATH",
       "PATH=$HOME/.nodebrew/current/bin:$PATH"
     )
     file.write_file
   end
+end
+
+execute "#{bin_dir}/nodebrew install-binary v4.1.1 && #{bin_dir}/nodebrew use v4.1.1" do
+  user user
+  environment(
+    'USER' => user,
+    'HOME' => "/home/#{user}",
+    'PATH' => "#{bin_dir}:/usr/bin"
+  )
+  action :run
+  not_if File.exists?("#{bin_dir}/node")
+end
+
+execute "#{bin_dir}/npm install -g grunt-cli" do
+  user  user
+  environment(
+    'USER' => user,
+    'HOME' => "/home/#{user}",
+    'PATH' => "#{bin_dir}:/usr/bin"
+  )
+  action :run
 end
 
 include_recipe 'database::mysql'
