@@ -25,24 +25,24 @@ ruby_block "add path" do
   end
 end
 
-execute "#{bin_dir}/nodebrew install-binary v4.1.1 && #{bin_dir}/nodebrew use v4.1.1" do
+execute "nodebrew install-binary v4.1.1 && #{bin_dir}/nodebrew use v4.1.1" do
   user user
-  environment(
+  environment({
     'USER' => user,
     'HOME' => "/home/#{user}",
     'PATH' => "#{bin_dir}:/usr/bin"
-  )
+  })
   action :run
-  not_if File.exists?("#{bin_dir}/node")
+  not_if { File.exists?("#{bin_dir}/node") }
 end
 
-execute "#{bin_dir}/npm install -g grunt-cli" do
+execute "npm install -g grunt-cli" do
   user  user
-  environment(
+  environment({
     'USER' => user,
     'HOME' => "/home/#{user}",
     'PATH' => "#{bin_dir}:/usr/bin"
-  )
+  })
   action :run
 end
 
