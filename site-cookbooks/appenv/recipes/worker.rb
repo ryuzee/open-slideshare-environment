@@ -13,13 +13,17 @@
   end
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/openoffice.tar.gz" do
-  source "http://downloads.sourceforge.net/project/openofficeorg.mirror/4.1.1/binaries/ja/Apache_OpenOffice_4.1.1_Linux_x86-64_install-deb_ja.tar.gz"
-  mode 0644
+openoffice_download_domain = "http://downloads.sourceforge.net"
+openoffice_download_url = "#{openoffice_download_domain}/project/openofficeorg.mirror/4.1.1/binaries/ja/Apache_OpenOffice_4.1.1_Linux_x86-64_install-deb_ja.tar.gz"
+
+execute "wget #{openoffice_download_url} --tries 3 -O #{Chef::Config[:file_cache_path]}/openoffice.tar.gz" do
+  action :run
+  not_if "dpkg -l | grep openoffice"
 end
 
 execute "tar xvfz #{Chef::Config[:file_cache_path]}/openoffice.tar.gz && cd ja/DEBS && dpkg -i *.deb" do
   action :run
+  not_if "dpkg -l | grep openoffice"
 end
 
 package "supervisor" do
